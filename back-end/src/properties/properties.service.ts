@@ -24,5 +24,19 @@ export class PropertiesService {
     }));
   }
 
-  async findOne(id: number) {}
+  async findOne(id: string) {
+    const property = await this.prisma.property.findUnique({
+      where: { id },
+      include: {
+        images: true,
+        owner: true,
+        reviews: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+    return property;
+  }
 }
