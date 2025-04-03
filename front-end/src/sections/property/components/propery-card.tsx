@@ -1,5 +1,5 @@
 
-import { Box, Image, Heading, Text, Flex, Badge, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import { Box, Image, Heading, Text, Flex, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import { MapPin } from "lucide-react";
 import { ListPropertyDto } from "@/DTOs/property-dto";
 import Link from "next/link";

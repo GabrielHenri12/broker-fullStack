@@ -6,12 +6,7 @@ import {
     Heading,
     SimpleGrid,
     Text,
-    Flex,
-    Input,
-    InputGroup,
-    Select,
     Skeleton,
-    HStack,
     useBreakpointValue
 } from "@chakra-ui/react";
 import { useListProperty } from "../hooks/use-list-property"
