@@ -7,7 +7,7 @@ export const useListProperty = () => {
     queryKey: ["properties"],
     queryFn: () => axios.get(endpoints.property.list).then((res) => res.data),
   });
-  console.log(data)
+
   return {
     data,
     error,

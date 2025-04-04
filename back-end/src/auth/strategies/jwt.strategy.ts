@@ -17,16 +17,15 @@ export class JwtStrategy {
     try {
       const secretKey =
         process.env.SECRET_KEY ?? 'sasdasdasdasdsa';
-      const decoded = jwt.verify(token, secretKey) as {
-        id: string;
-        exp: number;
-      };
-      const currentTime = Math.floor(Date.now() / 1000); // Tempo atual em segundos
+      const decoded = jwt.verify(token, secretKey) as any;
+
+      const currentTime = Math.floor(Date.now() / 1000);
       if (decoded.exp < currentTime) {
         console.error('Token expirado');
         return null;
       }
-      return decoded.id;
+
+      return decoded;
     } catch (error) {
       console.error('Erro ao decodificar o token JWT:', error);
       return null;

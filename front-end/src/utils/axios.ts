@@ -43,6 +43,6 @@ export const endpoints = {
   },
   property: {
     list: "properties",
-    details: "/api/mail/details",
+    details: (id: string) => `properties/${id}`,
   },
 };
