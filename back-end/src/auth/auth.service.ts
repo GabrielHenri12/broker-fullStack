@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { BcryptStrategy } from './strategies/bcrypt.strategy';
+import { MeAuthDto } from './dto/me-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -31,5 +32,17 @@ export class AuthService {
     });
 
     return token;
+  }
+  async me(id: string): Promise<MeAuthDto> {
+    const user = await this._prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new Error('Usuário não encontrado');
+    }
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
   }
 }

@@ -37,12 +37,12 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 
 export const endpoints = {
   auth: {
-    me: "/api/auth/me",
-    signIn: "/api/auth/sign-in",
-    signUp: "/api/auth/sign-up",
+    me: "auth/me",
+    login: "auth/login",
   },
   property: {
     list: "properties",
     details: (id: string) => `properties/${id}`,
+    review: (id: string) => `properties/${id}/reviews`,
   },
 };

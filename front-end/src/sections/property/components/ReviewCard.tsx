@@ -14,7 +14,9 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
   return (
     <Box mb={6} divideX={"2px"}>
       <Flex align="center" mb={2}>
-        <Avatar.Fallback name={user.name} mr={3} />
+        <Avatar.Root mr={3}>
+          <Avatar.Fallback name={user.name} />
+        </Avatar.Root>
         <Box>
           <Text fontWeight="medium">{user.name}</Text>
           <Flex align="center">

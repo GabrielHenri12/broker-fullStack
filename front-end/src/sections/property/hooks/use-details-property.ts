@@ -1,7 +1,8 @@
-import { DetailsPropertyDto, ListPropertyDto } from "@/DTOs/property-dto";
+import { DetailsPropertyDto } from "@/DTOs/property-dto";
 import axios, { endpoints } from "@/utils/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export const useDetailsProperty = (propertyId: string) => {
   // States
@@ -15,7 +16,12 @@ export const useDetailsProperty = (propertyId: string) => {
       }),
   });
 
-  
+  const methods = useForm();
+  const { handleSubmit } = methods;
+  // function
+  const createReview = handleSubmit(async data => {
+    
+  });
 
   useEffect(() => {
     if (data && data.images.length > 0) {

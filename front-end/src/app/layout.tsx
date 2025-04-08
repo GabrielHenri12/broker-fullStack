@@ -1,5 +1,7 @@
 import { Inter } from 'next/font/google';
 import { Provider } from '@/components/provider';
+import Header from '@/components/Header';
+import { AuthProvider, AuthConsumer } from '../auth/context';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -11,7 +13,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html className={inter.className} suppressHydrationWarning>
       <body>
         <Provider>
-          {children}
+          <AuthProvider>
+            <AuthConsumer>
+              <Header />
+              {children}
+            </AuthConsumer>
+          </AuthProvider>
         </Provider>
       </body>
     </html>

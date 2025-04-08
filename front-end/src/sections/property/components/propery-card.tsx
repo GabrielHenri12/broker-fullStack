@@ -12,7 +12,6 @@ interface PropertyCardProps {
 const PropertyCard = ({ property }: PropertyCardProps) => {
     const { id, name, price, images, rating, address } = property;
     const image = images[0].url;
-    console.log(image)
     const formattedPrice = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL',

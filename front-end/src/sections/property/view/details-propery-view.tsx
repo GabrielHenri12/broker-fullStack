@@ -31,7 +31,7 @@ type props = {
 export default function DetailsProperyView({ id }: props) {
     const isMobile = useBreakpointValue({ base: true, md: false }) || false;
     const { data, isPending, error, selectedImage, setSelectedImage, refetch } = useDetailsProperty(id);
-
+    console.log(data)
     if (!data || error) {
         return <div>Erro ao carregar os dados</div>
     }
@@ -99,13 +99,15 @@ export default function DetailsProperyView({ id }: props) {
                             boxShadow="md"
                             bg="white"
                         >
-                            <Image
-                                src={selectedImage}
-                                alt={data.name}
-                                w="100%"
-                                h={{ base: "300px", md: "400px" }}
-                                objectFit="cover"
-                            />
+                            {selectedImage &&
+                                <Image
+                                    src={selectedImage}
+                                    alt={data.name}
+                                    w="100%"
+                                    h={{ base: "300px", md: "400px" }}
+                                    objectFit="cover"
+                                />
+                            }
                         </Box>
 
                         <SimpleGrid columns={{ base: 3, md: 4 }} gap={2} mt={2}>
@@ -177,8 +179,6 @@ export default function DetailsProperyView({ id }: props) {
                             </Flex>
                         </Badge>
                     </Flex>
-                    {data && <ReviewForm propertyId={data.id} onReviewAdded={refetch} />}
-
                     {data.reviews.length === 0 ? (
                         <Text color="gray.600" textAlign="center" py={4}>
                             Esta propriedade ainda não possui avaliações.
@@ -187,10 +187,11 @@ export default function DetailsProperyView({ id }: props) {
                         <VStack align="stretch" gap={0}>
                             {data.reviews.map((review) => (
                                 <ReviewCard key={review.id} review={review} />
-                                // <div>{review.comment}</div>
                             ))}
                         </VStack>
                     )}
+
+                    {data && <ReviewForm propertyId={data.id} onReviewAdded={refetch} />}
                 </Box>
             </Container>
         </Box>
