@@ -5,6 +5,7 @@ import {
   Patch,
   UseGuards,
   Request,
+  Get,
 } from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
@@ -73,5 +74,17 @@ export class ReviewsController {
       propertyId,
       approveReviewDto.status,
     );
+  }
+
+  @Get('properties/:propertyId/reviews/for/approval')
+  @UseGuards(AuthGuard)
+  async reviewForApproval(@Request() req) {
+    const { role } = req.user;
+    if (role !== 'ADMIN') {
+      throw new Error('Apenas administradores podem aprovar avaliações');
+    }
+    const { propertyId } = req.params;
+
+    return await this.reviewsService.findAllPending(propertyId);
   }
 }

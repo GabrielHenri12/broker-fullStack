@@ -29,6 +29,14 @@ export class ReviewsService {
     });
   }
 
+  async findAllPending(propertyId: string) {
+    return await this.prisma.review.findMany({
+      where: { propertyId, status: 'PENDING', deletedAt: null },
+      orderBy: { createdAt: 'desc' },
+      include: { user: { select: { id: true, name: true } } },
+    });
+  }
+
   async approveReview(
     id: string,
     propertyId: string,

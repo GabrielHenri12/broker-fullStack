@@ -1,3 +1,4 @@
+import { useAuthContext } from "@/auth/hooks";
 import { DetailsPropertyDto } from "@/DTOs/property-dto";
 import axios, { endpoints } from "@/utils/axios";
 import { useQuery } from "@tanstack/react-query";
@@ -5,6 +6,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useDetailsProperty = (propertyId: string) => {
+
+  const { user, authenticated } = useAuthContext();
+
   // States
   const [selectedImage, setSelectedImage] = useState("");
 
@@ -16,11 +20,21 @@ export const useDetailsProperty = (propertyId: string) => {
       }),
   });
 
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      rating: 5,
+      comment: "",
+    },
+  });
+
   const { handleSubmit } = methods;
   // function
-  const createReview = handleSubmit(async data => {
-    
+  const onSubmitReview = handleSubmit(async (data) => {
+    console.log(data);
+    // await axios.post(endpoints.property.review(propertyId), {
+    //   comment: "",
+    //   rating: 5,
+    // });
   });
 
   useEffect(() => {
@@ -36,5 +50,6 @@ export const useDetailsProperty = (propertyId: string) => {
     selectedImage,
     setSelectedImage,
     refetch,
+    onSubmitReview,
   };
 };

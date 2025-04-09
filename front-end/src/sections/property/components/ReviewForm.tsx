@@ -8,55 +8,31 @@ import {
   Text
 } from "@chakra-ui/react";
 import { Star } from "lucide-react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
-import axiosInstance, { endpoints } from "@/utils/axios";
+import { Controller, FormProvider, UseFormReturn } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 interface ReviewFormProps {
   propertyId: string;
-  onReviewAdded: () => void;
+  onSubmitReview: (e?: React.BaseSyntheticEvent) => Promise<void>
+  form: UseFormReturn<{ rating: number; comment: string; }, any, { rating: number; comment: string; }>
 }
 
-const ReviewForm = ({ propertyId, onReviewAdded }: ReviewFormProps) => {
+const ReviewForm = ({ form, onSubmitReview }: ReviewFormProps) => {
   const [hoveredRating, setHoveredRating] = useState(0);
 
   const router = useRouter();
 
-  const methods = useForm({
-    defaultValues: {
-      comment: "",
-      rating: 0,
-    },
-  });
-
   const {
     control,
-    handleSubmit,
-    reset,
     formState: { errors },
     formState: { isLoading }
-  } = methods;
-
-  const onSubmit = handleSubmit(async (data) => {
-    const { comment, rating } = data;
-    if (!comment || !rating) {
-      return;
-    }
-
-    await axiosInstance.post(endpoints.property.details(propertyId), {
-      comment,
-      rating,
-    })
-
-    reset();
-    router.refresh();
-  });
+  } = form;
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...form}>
       <Box
         as="form"
-        onSubmit={onSubmit}
+        onSubmit={onSubmitReview}
         bg="white"
         p={6}
         borderRadius="lg"
@@ -116,9 +92,9 @@ const ReviewForm = ({ propertyId, onReviewAdded }: ReviewFormProps) => {
               }
             }}
           />
-          {methods.formState.errors.comment && (
+          {form.formState.errors.comment && (
             <Text color="red.500" mt={1}>
-              {methods.formState.errors.comment.message}
+              {form.formState.errors.comment.message}
             </Text>
           )}
         </Box>
