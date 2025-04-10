@@ -43,6 +43,10 @@ export const endpoints = {
   property: {
     list: "properties",
     details: (id: string) => `properties/${id}`,
-    review: (id: string) => `properties/${id}/reviews`,
   },
+  review: {
+    create: (id: string) => `properties/${id}/reviews`,
+    pending: (id: string) => `properties/${id}/reviews/for/approval`,
+    approve: (id: string, reviewId: string) => `properties/${id}/reviews/${reviewId}/status`,
+  }
 };

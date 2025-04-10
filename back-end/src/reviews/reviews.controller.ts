@@ -13,7 +13,7 @@ import { ApproveReviewDto } from './dto/approve-review.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
 
-@Controller('reviews')
+@Controller()
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 

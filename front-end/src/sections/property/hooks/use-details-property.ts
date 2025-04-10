@@ -1,16 +1,13 @@
-import { useAuthContext } from "@/auth/hooks";
 import { DetailsPropertyDto } from "@/DTOs/property-dto";
 import axios, { endpoints } from "@/utils/axios";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useDetailsProperty = (propertyId: string) => {
-
-  const { user, authenticated } = useAuthContext();
-
-  // States
   const [selectedImage, setSelectedImage] = useState("");
+  const router = useRouter();
 
   const { isPending, error, data, refetch } = useQuery<DetailsPropertyDto>({
     queryKey: [`propertie/${propertyId}`],
@@ -27,14 +24,15 @@ export const useDetailsProperty = (propertyId: string) => {
     },
   });
 
-  const { handleSubmit } = methods;
+  const { reset, handleSubmit } = methods;
   // function
   const onSubmitReview = handleSubmit(async (data) => {
-    console.log(data);
-    // await axios.post(endpoints.property.review(propertyId), {
-    //   comment: "",
-    //   rating: 5,
-    // });
+    const result = await axios.post(endpoints.review.create(propertyId), {
+      comment: data.comment,
+      rating: data.rating,
+    });
+    reset();
+    router.refresh();
   });
 
   useEffect(() => {
@@ -48,6 +46,7 @@ export const useDetailsProperty = (propertyId: string) => {
     error,
     isPending,
     selectedImage,
+    methods,
     setSelectedImage,
     refetch,
     onSubmitReview,

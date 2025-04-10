@@ -1,6 +1,5 @@
 "use client"
 
-import { useBreakpointValue } from "@chakra-ui/react";
 import { useDetailsProperty } from "../hooks/use-details-property";
 import {
     Box,
@@ -13,25 +12,22 @@ import {
     Badge,
     Button,
     VStack,
-    HStack,
-    Icon,
     Skeleton,
-    IconButton
 } from "@chakra-ui/react";
 import Link from "next/link";
 import StarRating from "@/components/ui/star-rating";
 import { MapPin } from "lucide-react";
 import ReviewCard from "../components/ReviewCard";
 import ReviewForm from "../components/ReviewForm";
+import ReviewsModal from "../components/reviews-modal";
 
 type props = {
     id: string
 }
 
 export default function DetailsProperyView({ id }: props) {
-    const isMobile = useBreakpointValue({ base: true, md: false }) || false;
-    const { data, isPending, error, selectedImage, setSelectedImage, refetch } = useDetailsProperty(id);
-    console.log(data)
+    const { data, isPending, error, selectedImage, setSelectedImage, onSubmitReview, methods } = useDetailsProperty(id);
+
     if (!data || error) {
         return <div>Erro ao carregar os dados</div>
     }
@@ -172,12 +168,14 @@ export default function DetailsProperyView({ id }: props) {
                         <Heading as="h2" size="lg">
                             Avaliações
                         </Heading>
-                        <Badge colorScheme="yellow" p={2} borderRadius="md">
-                            <Flex align="center">
-                                {/* <Icon as={StarRating} color="yellow.400" fill="yellow.400" mr={1} /> */}
-                                <Text>{data.rating.toFixed(1)}</Text>
-                            </Flex>
-                        </Badge>
+                        <Flex gap={3}>
+                            <ReviewsModal id={id} />
+                            <Badge colorScheme="yellow" p={2} borderRadius="md">
+                                <Flex align="center">
+                                    <StarRating rating={data.rating} />
+                                </Flex>
+                            </Badge>
+                        </Flex>
                     </Flex>
                     {data.reviews.length === 0 ? (
                         <Text color="gray.600" textAlign="center" py={4}>
@@ -191,7 +189,7 @@ export default function DetailsProperyView({ id }: props) {
                         </VStack>
                     )}
 
-                    {data && <ReviewForm propertyId={data.id} onReviewAdded={refetch} />}
+                    {data && <ReviewForm propertyId={data.id} onSubmitReview={onSubmitReview} form={methods} />}
                 </Box>
             </Container>
         </Box>

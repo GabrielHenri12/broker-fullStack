@@ -3,9 +3,9 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Criando usuários (2 USERs e 1 ADMIN)
 INSERT INTO "User" (id, name, email, password, role, "createdAt", "updatedAt")
 VALUES
-  (uuid_generate_v4(), 'João Silva', 'joao@email.com', '$2b$10$abcd1234abcd1234abcd12', 'USER', NOW(), NOW()),
-  (uuid_generate_v4(), 'Maria Souza', 'maria@email.com', '$2b$10$abcd1234abcd1234abcd12', 'USER', NOW(), NOW()),
-  (uuid_generate_v4(), 'Admin Master', 'admin@email.com', '$2b$10$abcd1234abcd1234abcd12', 'ADMIN', NOW(), NOW());
+  (uuid_generate_v4(), 'João Silva', 'joao@email.com', '$2a$12$MkwNy8Bd9HF0RaC3PBD0J.uxmhV3pnwfgLn3HTLz8iaD2czsGp2wW', 'USER', NOW(), NOW()),
+  (uuid_generate_v4(), 'Maria Souza', 'maria@email.com', '$2a$12$MkwNy8Bd9HF0RaC3PBD0J.uxmhV3pnwfgLn3HTLz8iaD2czsGp2wW', 'USER', NOW(), NOW()),
+  (uuid_generate_v4(), 'Admin Master', 'admin@email.com', '$2a$12$MkwNy8Bd9HF0RaC3PBD0J.uxmhV3pnwfgLn3HTLz8iaD2czsGp2wW', 'ADMIN', NOW(), NOW());
 
 -- Criando propriedades
 INSERT INTO "Property" (id, name, description, address, value, "ownerId", "createdAt", "updatedAt") VALUES

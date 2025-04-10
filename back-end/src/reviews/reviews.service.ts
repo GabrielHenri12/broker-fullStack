@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { PrismaService } from 'src/prisma.service';
+import { PendingReviewDto } from './dto/pending-review.dto';
 
 @Injectable()
 export class ReviewsService {
@@ -29,12 +30,23 @@ export class ReviewsService {
     });
   }
 
-  async findAllPending(propertyId: string) {
-    return await this.prisma.review.findMany({
+  async findAllPending(propertyId: string): Promise<PendingReviewDto[]> {
+    const reviews = await this.prisma.review.findMany({
       where: { propertyId, status: 'PENDING', deletedAt: null },
       orderBy: { createdAt: 'desc' },
       include: { user: { select: { id: true, name: true } } },
     });
+
+    return reviews.map((x) => ({
+      id: x.id,
+      comment: x.comment,
+      rating: x.rating,
+      createdAt: x.createdAt,
+      user: {
+        id: x.user.id,
+        name: x.user.name,
+      },
+    }));
   }
 
   async approveReview(
